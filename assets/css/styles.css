@@ -1,0 +1,117 @@
+/* Dropdown title */
+.service-type-title {
+  color: black !important; /* Title color */
+  cursor: pointer; /* Change cursor to pointer */
+  font-weight: bold;
+}
+
+/* Dropdown container */
+.service-type-dropdown {
+  position: relative !important; /* Needed for absolute positioning of dropdown */
+}
+
+/* Dropdown list styling, hidden by default */
+.service-type-list {
+  display: none !important; /* Hide dropdown initially */
+  position: absolute !important; /* Position it below the title */
+  background-color: rgba(30, 30, 30, 0.9) !important; /* Dark background */
+  list-style: none !important; /* Remove bullet points */
+  padding: 0 !important;
+  margin: 0 !important;
+  z-index: 1000 !important; /* Ensure it appears above other elements */
+  max-height: 550px !important; /* Set a maximum height for scrolling */
+  overflow-y: auto !important; /* Enable vertical scrolling if needed */
+}
+
+/* Show dropdown on hover or click */
+.service-type-dropdown:hover .service-type-list,
+.service-type-dropdown:focus-within .service-type-list {
+  display: block !important; /* Show options */
+}
+
+/* Style for each dropdown option */
+.service-type-list li {
+  padding: 10px 15px !important; /* Add padding */
+  display: block !important; /* Stack items vertically */
+  color: white !important; /* Option text color */
+}
+
+/* Link styling */
+.service-type-list li a {
+  color: white !important; /* Option text color */
+  text-decoration: none !important; /* Remove underline */
+  display: block !important; /* Make the entire area clickable */
+}
+
+/* Hover effect for options */
+.service-type-list li a:hover {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.2
+  ) !important; /* Lighten background */
+  color: white !important;
+  display: block !important; /* Show the entire area clickable */
+}
+
+/* main menu */
+.btn-area {
+  position: relative;
+}
+
+.dropdown {
+  background-color: rgba(173, 216, 230, 0.1); /* Very transparent light blue */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.dropdown {
+  display: none; /* Initially hide the dropdown buttons */
+  position: absolute;
+  top: 100%; /* Position below the main button */
+  left: 0;
+  width: 100%; /* Optional: match the width of the main button */
+  background-color: rgba(173, 216, 230, 0.1); /* Very transparent light blue */
+  transition: background-color 0.3s ease; /* Smooth transition */
+  border: 1px solid #ccc; /* Optional: Border for dropdown */
+  border-radius: 10%;
+  z-index: 1000;
+}
+
+.dropdown a {
+  display: block; /* Make dropdown buttons stack vertically */
+  padding: 10px; /* Adjust padding */
+  text-decoration: none;
+  color: black; /* Adjust text color */
+}
+
+.dropdown a:hover {
+  background: #f0f0f0; /* Optional: Highlight effect on hover */
+}
+
+.btn-area:hover .dropdown {
+  display: block; /* Show the dropdown when Packages is hovered */
+}
+
+/* navigation bar */
+
+.header-elements {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.main-menu ul {
+  display: flex !important;
+}
+
+.service-type-dropdown .service-type-list,
+.btn-area .dropdown {
+  display: none !important; /* Ensure they are hidden by default */
+  position: absolute !important;
+}
+
+.service-type-dropdown:hover .service-type-list,
+.btn-area:hover .dropdown {
+  display: block !important; /* Make them visible on hover */
+}
