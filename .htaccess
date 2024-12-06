@@ -1,0 +1,20 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Set the default file to load
+DirectoryIndex index.html
+
+# Disable directory listing
+Options -Indexes
+
+
+AddType application/pdf .pdf
+
+<FilesMatch "\.pdf$">
+    Require all granted
+</FilesMatch>
+
+
+<IfModule LiteSpeed>
+    CacheDisable public /
+</IfModule>
