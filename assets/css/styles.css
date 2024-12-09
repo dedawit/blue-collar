@@ -115,3 +115,8 @@
 .btn-area:hover .dropdown {
   display: block !important; /* Make them visible on hover */
 }
+
+/*top more space for packages */
+.package-top {
+  margin-top: 8rem !important;
+}
