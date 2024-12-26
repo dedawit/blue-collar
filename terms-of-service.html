@@ -628,14 +628,28 @@
                 </div>
             </div>
         </div>
-        <div class="text-center my-4">
-            <a id="pay-button" class="btn btn-primary btn-lg">Agree and Pay <span id="price-display"></span></a>
+
+        <div class="mx-5"><label for="email">Email <span class="text-danger">*</span></label>
+            <input type="email" id="email" placeholder="Enter your email address" class="form-control mb-3" name="email"
+                required>
         </div>
+        <div class="text-center my-4">
+            <a id="pay-button" class="btn btn-primary btn-lg">
+                <span class="spinner hidden " id="my-spinner"></span> <!-- Spinner element -->
+                Agree and Pay <span id="price-display"></span>
+            </a>
+        </div>
+
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const payButton = document.getElementById('pay-button');
                 const priceDisplay = document.getElementById('price-display');
                 const packageRadios = document.querySelectorAll('input[name="package"]');
+                const emailInput1 = document.getElementById('email');
+                //  const email2 = 'salessupport@blue-collar-marketing.com';
+                const email2 = 'salessupport@blue-collar-marketing.com';
+                // Show the spinner
+                const spinner = document.getElementById("my-spinner");
 
                 // Function to update the price display and button text
                 function updatePrice() {
@@ -643,8 +657,9 @@
 
                     if (selectedPackage) {
                         const packagePrice = selectedPackage.getAttribute('data-price');
-                        priceDisplay.textContent = packagePrice; // Update price display
-                        payButton.textContent = `Agree and Pay ${packagePrice}`; // Update button text
+                        priceDisplay.textContent = " " + packagePrice; // Update price display
+                        //error
+                        //payButton.textContent =  `Agree and Pay ${packagePrice}`; // Update button text
                     }
                 }
 
@@ -661,23 +676,99 @@
                         alert('Please select a package before proceeding to payment.');
                         return;
                     }
-                    const packagePrice = packageName.getAttribute('data-price');
-                    let paymentUrl;
-                    switch (packageName.value) {
-                        case 'essentials':
-                            paymentUrl = 'https://bluecollarmktg.securepayments.cardpointe.com/pay?';
-                            break;
-                        case 'pro-suite':
-                            paymentUrl = 'https://bluecollarmktg.securepayments.cardpointe.com/pay?';
-                            break;
-                        case 'elite-suite':
-                            paymentUrl = 'https://bluecollarmktg.securepayments.cardpointe.com/pay?';
-                            break;
-                        default:
-                            console.error('No package selected');
-                            return;
+                    const email1 = emailInput1.value.trim();
+                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                    if (!email1 || !emailPattern.test(email1)) {
+                        alert('Please enter a correct email address.');
+                        return;
                     }
-                    window.open(paymentUrl, '_blank');
+
+                    //send email
+                    const info = `Dear User,
+
+We are pleased to inform you that your payment for the package "${packageName.value}" has been successfully verified.
+
+Thank you for choosing Blue Collar Marketing. We look forward to serving you. 
+The user is ${email1}.
+
+Best regards,
+The Blue Collar Marketing Team`;
+                    const subject = `Payment Confirmation for ${packageName.value}`;
+
+
+                    spinner.classList.remove('hidden');
+                    //console.log(spinner);
+
+                    fetch('http://localhost:3001/mailer/send', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email1,
+                            email2,
+                            subject,
+                            info,
+                        }),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            spinner.classList.add('hidden');
+
+
+                            if (data.message === 'Emails sent successfully!') {
+                                //  alert(data.message);
+                                let paymentUrl;
+                                switch (packageName.value) {
+                                    case 'essentials':
+                                        paymentUrl = 'https://bluecollarmktg.securepayments.cardpointe.com/pay?';
+                                        break;
+                                    case 'pro-suite':
+                                        paymentUrl = 'https://bluecollarmktg.securepayments.cardpointe.com/pay?';
+                                        break;
+                                    case 'elite-suite':
+                                        paymentUrl = 'https://bluecollarmktg.securepayments.cardpointe.com/pay?';
+                                        break;
+                                    default:
+                                        console.error('No package selected');
+                                        return;
+                                }
+                                //window.open(paymentUrl, '_blank');
+                                window.location.href = paymentUrl;
+
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Failed to send emails. Please try again later.');
+
+                            // Hide the spinner and show button text again in case of error
+                            spinner.classList.add('hidden');
+                        });
+
+
+
+
+                    //  const packagePrice = packageName.getAttribute('data-price');
+                    //let paymentUrl;
+                    //switch (packageName.value) {
+                    //   case 'essentials':
+                    //     paymentUrl = 'https://bluecollarmktg.securepayments.cardpointe.com/pay?';
+                    //   break;
+                    // case 'pro-suite':
+                    // paymentUrl = 'https://bluecollarmktg.securepayments.cardpointe.com/pay?';
+                    //   break;
+                    //case 'elite-suite':
+                    //  paymentUrl = 'https://bluecollarmktg.securepayments.cardpointe.com/pay?';
+                    //break;
+                    // default:
+                    //   console.error('No package selected');
+                    // return;
+                    // }
+                    //window.open(paymentUrl, '_blank')
                 });
             });
         </script>
