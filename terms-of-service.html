@@ -647,7 +647,7 @@
                 const packageRadios = document.querySelectorAll('input[name="package"]');
                 const emailInput1 = document.getElementById('email');
                 //  const email2 = 'salessupport@blue-collar-marketing.com';
-                const email2 = 'salessupport@blue-collar-marketing.com';
+                //const email2 = 'salessupport@blue-collar-marketing.com';
                 // Show the spinner
                 const spinner = document.getElementById("my-spinner");
 
@@ -700,16 +700,15 @@ The Blue Collar Marketing Team`;
                     spinner.classList.remove('hidden');
                     //console.log(spinner);
 
-                    fetch('http://localhost:3001/mailer/send', {
+                    fetch('https://blue-collar-backend.sweaven.dev/api/send-email', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            email1,
-                            email2,
-                            subject,
-                            info,
+                            to: email1,
+                            // subject,
+                            // text:info,
                         }),
                     })
                         .then(response => response.json())
@@ -717,7 +716,7 @@ The Blue Collar Marketing Team`;
                             spinner.classList.add('hidden');
 
 
-                            if (data.message === 'Emails sent successfully!') {
+                            if (data.message === 'Email sent successfully!') {
                                 //  alert(data.message);
                                 let paymentUrl;
                                 switch (packageName.value) {
